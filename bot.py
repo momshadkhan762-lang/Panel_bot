@@ -144,7 +144,7 @@ def keep_alive():
 
 # -----------------------------------------------------
 
-BOT_TOKEN = '8950060993:AAFUDtY8oBQTqJCaQHEdwdf6jODvCvHOaMc'
+BOT_TOKEN = '8950060993:AAHlTYWf6MrY7BJgOXdftdhIRTU1MEEbvmY'
 ADMIN_CHAT_ID = 8380823727
 ADMIN_USERNAME = "@Momshad_00"
 FAMPAY_UPI = "islam-momshad.khan@fam"
