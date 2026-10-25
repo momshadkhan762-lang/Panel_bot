@@ -18,7 +18,7 @@ USER_FILE = "users_db.json"
 ORDERS_FILE = "pending_orders.json"
 QR_EXPIRY_SECONDS = 300  # 5 Minutes
 
-BOT_TOKEN = "8950060993:AAGRAj3Y3GsWvcFlJtySsVF_Tua0WzfRbp0"
+BOT_TOKEN = "8950060993:AAGgjYqv1sAz9lNNSsj8978Iz2f2t1r1b0g"
 ADMIN_CHAT_ID = 8380823727
 ADMIN_USERNAME = "@Momshad_00"
 FAMPAY_UPI = "islam-momshad.khan@fam"
