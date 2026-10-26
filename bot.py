@@ -14,7 +14,7 @@ from telegram.ext import Application, CallbackQueryHandler, CommandHandler, Cont
 app = Flask(__name__)
 
 data_lock = Lock()
-BOT_TOKEN = "8950060993:AAHGnbt7SjJ944okecPKK_Y10HFGQ3MLj0s"
+BOT_TOKEN = "8950060993:AAFcrYdr506fHjqthZ8gTZXrhNJPOImo0jw"
 ADMIN_CHAT_ID = 8380823727
 ADMIN_USERNAME = "@Momshad_00"
 FAMPAY_UPI = "islam-momshad.khan@fam"
