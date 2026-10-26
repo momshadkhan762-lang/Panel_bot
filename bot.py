@@ -250,7 +250,7 @@ def keep_alive():
     t.daemon = True
     t.start()
 
-BOT_TOKEN = '8950060993:AAGgjYqv1sAz9lNNSsj8978Iz2f2t1r1b0g'
+BOT_TOKEN = "8950060993:AAECSE03uK75k8oQfj0a3NR5jWYI4ztDa84"
 ADMIN_CHAT_ID = 8380823727
 ADMIN_USERNAME = "@Momshad_00"
 FAMPAY_UPI = "islam-momshad.khan@fam"
