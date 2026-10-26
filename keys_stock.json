@@ -1,0 +1,28 @@
+{
+    "phanthom_1_hour": [
+        "PHTM-1HR-AAAA-1111",
+        "PHTM-1734-B61A-0BF0"
+    ],
+    "phanthom_3_hour": [
+        "PHTM-3HR-CCCC-3333"
+    ],
+    "phanthom_6_hour": [
+        "PHTM-6HR-DDDD-4444"
+    ],
+    "phanthom_12_hour": [
+        "PHTM-12HR-EEEE-5555"
+    ],
+    "phanthom_1_day": [
+        "PHTM-1DAY-FFFF-6666"
+    ],
+    "phanthom_3_days": [
+        "PHTM-3DAY-GGGG-7777"
+    ],
+    "phanthom_7_days": [
+        "PHTM-7DAY-HHHH-8888"
+    ],
+    "phanthom_30_days": [
+        "PHTM-30DAY-2000-9999",
+        "PHTM-30DAY-VIP-8888"
+    ]
+}
