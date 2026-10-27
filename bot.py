@@ -147,8 +147,7 @@ def get_product_price(prod, plan):
 def home():
     return "Momshad X Panel Bot Gateway is running!"
 
-@app.route("/payment_webhook", methods=["POST", "GET", "PUT", "OPTIONS"])
-@app.route("/payment_webhook", methods=["POST", "GET", "PUT", "OPTIONS"])
+@app.route("/payment-webhook", methods=["POST", "GET"])
 def payment_webhook():
     try:
         print("=== PAYMENT WEBHOOK RECEIVED ===")
