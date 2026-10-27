@@ -157,8 +157,6 @@ def payment_webhook():
 
         print("=== WEBHOOK RECEIVED ===")
         print(f"JSON: {req_json}")
-        print(f"Form: {req_form}")
-        print(f"Args: {req_args}")
         print(f"Raw Data: {req_data}")
 
         combined_text = f"{json.dumps(req_json)} {str(req_form)} {str(req_args)} {req_data}"
