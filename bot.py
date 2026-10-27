@@ -248,7 +248,7 @@ def keep_alive():
     t.daemon = True
     t.start()
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "8950060993:AAFH68T-8ElYQyH7ImDpNF7OL3iFqyvzE4o"").strip()
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "8950060993:AAFH68T-8ElYQyH7ImDpNF7OL3iFqyvzE4o").strip()
 ADMIN_CHAT_ID = int(os.environ.get("ADMIN_CHAT_ID", "8380823727"))
 ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "@Momshad_00")
 FAMPAY_UPI = os.environ.get("FAMPAY_UPI", "islam-momshad.khan@fam").strip()
