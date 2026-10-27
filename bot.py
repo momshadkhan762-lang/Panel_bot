@@ -71,11 +71,11 @@ def load_keys():
         "phanthom_1_hour": [PHTM-877F-00E5-1234],
         "phanthom_3_hour": [PHTM-877F-00E5-1111],
         "phanthom_6_hour": [PHTM-877F-00E5-2222],
-        "phanthom_12_hour": [PHTM-877F-00E5-0000],
-        "phanthom_1_day": [PHTM-877F-00E5-9999],
+        "phanthom_12_hour":[PHTM-877F-00E5-0000],
+        "phanthom_1_day":  [PHTM-877F-00E5-9999],
         "phanthom_3_days": [PHTM-877F-00E5-8080],
         "phanthom_7_days": [PHTM-877F-00E5-7749],
-        "phanthom_30_days": [PHTM-877F-00E5-0067],
+        "phanthom_30_days":[PHTM-877F-00E5-0067],
     }
     save_keys(default_stock)
     return default_stock
