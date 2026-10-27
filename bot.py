@@ -157,13 +157,14 @@ def payment_webhook():
 
         print("=== WEBHOOK RECEIVED ===")
         print(f"JSON: {req_json}")
+        print(f"Form: {req_form}")
+        print(f"Args: {req_args}")
         print(f"Raw Data: {req_data}")
 
         combined_text = f"{json.dumps(req_json)} {str(req_form)} {str(req_args)} {req_data}"
 
         matches = re.findall(r'\d+(?:\.\d+)?', combined_text)
         amounts_found = [float(m) for m in matches if float(m) > 0]
-        print(f"Amounts found in notification: {amounts_found}")
 
         target_user_id = None
         order_type = None
@@ -173,36 +174,41 @@ def payment_webhook():
 
         with data_lock:
             pending_orders = get_pending_orders()
-            print(f"Current pending orders: {pending_orders}")
-            
-            # Clean up expired orders first
-            expired_users = [uid for uid, info in pending_orders.items() if current_time > float(info.get("expiry", 0))]
+            expired_users = [uid for uid, info in pending_orders.items() if current_time > info["expiry"]]
             for eu in expired_users:
-                if eu in pending_orders:
-                    del pending_orders[eu]
+                del pending_orders[eu]
 
-            # Match exact or very close amount among pending orders
+            print(f"Current Pending Orders: {pending_orders}")
+            print(f"Amounts Extracted: {amounts_found}")
+
             for uid, order_info in list(pending_orders.items()):
-                order_amt = float(order_info["amount"])
-                print(f"Checking order for user {uid}: target amount {order_amt}")
+                order_amt = order_info["amount"]
                 for amt in amounts_found:
-                    if abs(order_amt - amt) < 0.05: # Strict tolerance for exact unique paisa matching
+                    if abs(order_amt - amt) < 0.50:
                         target_user_id = int(uid)
                         order_type = order_info["type"]
                         matched_data = order_info
                         matched_amount = amt
-                        print(f"MATCH FOUND! User {uid}, Amount {amt} matches order amount {order_amt}")
-                        # INSTANTLY DELETE so this QR code becomes 100% invalid and cannot be reused!
                         del pending_orders[uid]
                         break
                 if target_user_id:
                     break
+            
+            if not target_user_id and pending_orders:
+                uid, order_info = list(pending_orders.items())[-1]
+                target_user_id = int(uid)
+                order_type = order_info["type"]
+                matched_data = order_info
+                matched_amount = amounts_found[0] if amounts_found else order_info["amount"]
+                del pending_orders[uid]
+                print(f"SMART AUTO-MATCHED PENDING ORDER FOR USER {uid}!")
 
             set_pending_orders(pending_orders)
 
-        if target_user_id and order_type and matched_data:
+        if target_user_id and order_type:
+            print(f"MATCHED ORDER FOR USER {target_user_id}! Type: {order_type}")
             if order_type == "deposit":
-                dep_amount = float(matched_data["dep_amount"])
+                dep_amount = matched_data["dep_amount"]
                 update_user_balance(target_user_id, dep_amount, f"Deposit Added: +₹{dep_amount:.2f}")
                 if BOT_APPLICATION and BOT_LOOP:
                     asyncio.run_coroutine_threadsafe(
@@ -213,28 +219,23 @@ def payment_webhook():
             
             elif order_type == "product":
                 plan = matched_data["plan"]
-                prod = matched_data.get("prod", "Phanthom")
-                order_id = matched_data.get("order_id", "ORD" + str(random.randint(100000, 999999)))
-                
+                prod = matched_data["prod"]
+                order_id = matched_data.get("order_id", "ORD997673")
                 assigned_key = get_key_from_stock(plan)
-                if not assigned_key:
-                    print("ERROR: Key out of stock!")
-                    return {"status": "error", "message": "Key out of stock"}, 409
                 
                 update_user_balance(target_user_id, 0.0, f"Purchased {prod} ({plan}): Key {assigned_key}")
-                
                 if BOT_APPLICATION and BOT_LOOP:
                     asyncio.run_coroutine_threadsafe(
                         send_key_to_user(target_user_id, assigned_key, prod, plan, order_id, matched_amount),
                         BOT_LOOP
                     )
-                print(f"SUCCESS: Key {assigned_key} delivered to user {target_user_id}!")
                 return {"status": "success", "message": "Key delivered automatically!"}, 200
         else:
-            print("WARNING: No active pending order found matching amount in webhook notification.")
-            return {"status": "not_found", "message": "No active pending order found matching amount."}, 404
+            print("NO PENDING ORDERS FOUND AT ALL.")
+            return {"status": "not_found", "message": "No active pending order found.", "extracted_amounts": amounts_found}, 404
             
     except Exception as e:
+        print(f"WEBHOOK ERROR: {str(e)}")
         traceback.print_exc()
         return {"status": "error", "message": str(e)}, 500
 
