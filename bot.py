@@ -150,14 +150,16 @@ def home():
 @app.route("/payment-webhook", methods=["POST", "GET"])
 def payment_webhook():
     try:
-        print("=== PAYMENT WEBHOOK RECEIVED ===")
         req_json = request.get_json(silent=True) or {}
         req_form = request.form.to_dict()
         req_args = request.args.to_dict()
         req_data = request.get_data(as_text=True)
 
+        print("=== WEBHOOK RECEIVED ===")
         print(f"JSON: {req_json}")
-        print(f"Data: {req_data}")
+        print(f"Form: {req_form}")
+        print(f"Args: {req_args}")
+        print(f"Raw Data: {req_data}")
 
         combined_text = f"{json.dumps(req_json)} {str(req_form)} {str(req_args)} {req_data}"
 
